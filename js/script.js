@@ -45,13 +45,12 @@ function OnGalleryImgClick(e) {
   if (!e.target.classList.contains("gallery__image")) return;
 
   // заповнюємо параметри
-  refs.originalImg.src = e.target.dataset.src;
-  refs.originalImg.alt = e.target.alt;
   curImgIdx = e.target.dataset.idx;
-  refs.modalWnd.classList.add("is-open");
+  ChangeImage();
 
   refs.lightboxOverlay.addEventListener("click", onLigthboxOverlayClick);
   window.addEventListener("keydown", onPressKey);
+  refs.modalWnd.classList.add("is-open");
 }
 
 function OnCloseModalWnd() {
