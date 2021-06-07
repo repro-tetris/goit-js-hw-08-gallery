@@ -24,7 +24,7 @@ refs.galleryEl.insertAdjacentHTML(
       const imgEl = document.createElement("img");
       imgEl.src = preview;
       imgEl.alt = description;
-      imgEl.dataset.src = original;
+      //imgEl.dataset.source = original;
       imgEl.dataset.idx = idx;
       imgEl.classList.add("gallery__image");
       liEl.appendChild(imgEl);
@@ -70,9 +70,11 @@ function onPressKey(e) {
   if (e.key === "Escape") {
     OnCloseModalWnd();
   } else if (e.key === "ArrowLeft") {
+    // індекс попереднього зображення
     curImgIdx = (curImgIdx + cntImages - 1) % cntImages;
     ChangeImage();
   } else if (e.key === "ArrowRight") {
+    // індекс наступного зображення
     curImgIdx = (curImgIdx + 1) % cntImages;
     ChangeImage();
   }
