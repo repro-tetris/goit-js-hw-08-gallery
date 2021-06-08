@@ -57,6 +57,7 @@ function OnCloseModalWnd() {
   refs.lightboxOverlay.removeEventListener("click", onLigthboxOverlayClick);
   window.removeEventListener("keydown", onPressKey);
   refs.modalWnd.classList.remove("is-open");
+  refs.originalImg.src = null;
 }
 
 // extra functional
