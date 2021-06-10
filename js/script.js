@@ -24,7 +24,7 @@ refs.galleryEl.insertAdjacentHTML(
       const imgEl = document.createElement("img");
       imgEl.src = preview;
       imgEl.alt = description;
-      //imgEl.dataset.source = original;
+      imgEl.dataset.source = original;
       imgEl.dataset.idx = idx;
       imgEl.classList.add("gallery__image");
       liEl.appendChild(imgEl);
@@ -37,7 +37,7 @@ refs.galleryEl.insertAdjacentHTML(
 // подія на клік по зображенню
 refs.galleryEl.addEventListener("click", OnGalleryImgClick);
 // подія на клік по кнопці "close"
-refs.closeModalBtn.addEventListener("click", OnCloseModalWnd);
+refs.closeModalBtn.addEventListener("click", onCloseModalWnd);
 
 //функція кліку на зображення
 function OnGalleryImgClick(e) {
@@ -46,42 +46,49 @@ function OnGalleryImgClick(e) {
 
   // заповнюємо параметри
   curImgIdx = e.target.dataset.idx;
-  ChangeImage();
+  changeImage(e.target.alt, e.target.dataset.source);
 
   refs.lightboxOverlay.addEventListener("click", onLigthboxOverlayClick);
   window.addEventListener("keydown", onPressKey);
   refs.modalWnd.classList.add("is-open");
 }
 
-function OnCloseModalWnd() {
+function onCloseModalWnd() {
   refs.lightboxOverlay.removeEventListener("click", onLigthboxOverlayClick);
   window.removeEventListener("keydown", onPressKey);
   refs.modalWnd.classList.remove("is-open");
-  refs.originalImg.src = null;
+  changeImage(null, null);
 }
 
 // extra functional
 function onLigthboxOverlayClick(e) {
   if (e.target !== e.currentTarget) return;
 
-  OnCloseModalWnd();
+  onCloseModalWnd();
 }
 
 function onPressKey(e) {
   if (e.key === "Escape") {
-    OnCloseModalWnd();
+    onCloseModalWnd();
   } else if (e.key === "ArrowLeft") {
     // індекс попереднього зображення
     curImgIdx = (curImgIdx + cntImages - 1) % cntImages;
-    ChangeImage();
+    changeImageByIdx(curImgIdx);
   } else if (e.key === "ArrowRight") {
     // індекс наступного зображення
     curImgIdx = (curImgIdx + 1) % cntImages;
-    ChangeImage();
+    changeImageByIdx(curImgIdx);
   }
 }
 
-function ChangeImage() {
-  refs.originalImg.src = gallery.default[curImgIdx].original;
-  refs.originalImg.alt = gallery.default[curImgIdx].description;
+function changeImage(alt, src) {
+  refs.originalImg.src = src; //gallery.default[curImgIdx].original;
+  refs.originalImg.alt = alt; // gallery.default[curImgIdx].description;
+}
+
+function changeImageByIdx(idx) {
+  const imgEl = refs.galleryEl.querySelector(
+    `.gallery__image[data-idx="${idx}"]`
+  );
+  changeImage(imgEl.alt, imgEl.dataset.source);
 }
